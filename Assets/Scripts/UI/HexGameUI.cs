@@ -2,13 +2,10 @@
 using UnityEngine.EventSystems;
 
 public class HexGameUI : MonoBehaviour {
-
 	public HexGrid grid;
-
 	HexCell currentCell;
-
 	HexUnit selectedUnit;
-
+	public CoverSelectionMenu coverMenu;
 	public void SetEditMode (bool toggle) {
 		enabled = !toggle;
 		grid.ShowUI(!toggle);
@@ -18,8 +15,17 @@ public class HexGameUI : MonoBehaviour {
 	void Update () {
 		if (!EventSystem.current.IsPointerOverGameObject()) {
 			if (Input.GetMouseButtonDown(0)) {
-				DoSelection();
-				currentCell.BuildCover();
+				DisableCurrentHighlight();
+				if(coverMenu.isActiveAndEnabled)
+				{
+					UpdateCurrentCell();
+					coverMenu.MoveToCursor();
+				}
+				else
+				{
+					DoSelection();
+				}
+
 			}
 			else if (selectedUnit) {
 				if (Input.GetMouseButtonDown(1)) {
@@ -59,7 +65,7 @@ public class HexGameUI : MonoBehaviour {
 		}
 	}
 
-	bool UpdateCurrentCell () {
+	public bool UpdateCurrentCell () {
 		HexCell cell =
 			grid.GetCell(Camera.main.ScreenPointToRay(Input.mousePosition));
 		if (cell != currentCell) {
@@ -67,5 +73,20 @@ public class HexGameUI : MonoBehaviour {
 			return true;
 		}
 		return false;
+	}
+
+	public void HighlightCurrentCell() 
+	{
+		if(currentCell) currentCell.EnableHighlight(Color.cyan);
+	}
+
+	public void DisableCurrentHighlight()
+	{
+		if(currentCell) currentCell.DisableHighlight();
+	}
+
+	public void SetCurrentCellCover(int dir)
+	{
+		if(currentCell) currentCell.BuildCover(dir);
 	}
 }

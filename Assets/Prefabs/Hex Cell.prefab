@@ -57,4 +57,11 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   roads: 000000000000
+  covers:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   cover: {fileID: 4992945888823293935, guid: 99c3a39c33a814243a5b464e975d5eda, type: 3}

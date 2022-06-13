@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
+using System.Collections.Generic;
 
 public class HexCell : MonoBehaviour {
 
@@ -274,7 +275,7 @@ public class HexCell : MonoBehaviour {
 	[SerializeField]
 	bool[] roads;
 
-
+	public List<GameObject> covers;
 
 	public void IncreaseVisibility () {
 		visibility += 1;
@@ -548,7 +549,7 @@ public class HexCell : MonoBehaviour {
 	}
 
 	public GameObject cover;
-	public void BuildCover()
+	public void BuildCover(int direction)
 	{
 		float halfOuter = 4.5f;
 		
@@ -560,11 +561,32 @@ public class HexCell : MonoBehaviour {
 		Vector3 coverE = new Vector3(2*halfOuter,0,0);
 		Vector3 coverSE = new Vector3(halfOuter,0,-midPoint);
 		Vector3 coverSW = new Vector3(-halfOuter,0,-midPoint);
-		Instantiate(cover, transform.localPosition + coverNE, Quaternion.Euler(0,30,0));
-		Instantiate(cover, transform.localPosition + coverNW, Quaternion.Euler(0,-30,0));
-		Instantiate(cover, transform.localPosition + coverW, Quaternion.Euler(0,90,0));
-		Instantiate(cover, transform.localPosition + coverE, Quaternion.Euler(0,90,0));
-		Instantiate(cover, transform.localPosition + coverSE, Quaternion.Euler(0,-30,0) );
-		Instantiate(cover, transform.localPosition + coverSW, Quaternion.Euler(0,30,0));
+		switch (direction)
+		{
+			case 0:
+			if(covers[0] == null)
+			covers[0] = Instantiate(cover, transform.localPosition + coverNE, Quaternion.Euler(0,30,0), this.transform);
+			break;
+			case 1:
+			if(covers[1] == null)
+			covers[1] = Instantiate(cover, transform.localPosition + coverNW, Quaternion.Euler(0,-30,0), this.transform);
+			break;
+			case 2:
+			if(covers[2] == null)
+			covers[2] = Instantiate(cover, transform.localPosition + coverW, Quaternion.Euler(0,90,0), this.transform);
+			break;
+			case 3:
+			if(covers[3] == null)
+			covers[3] = Instantiate(cover, transform.localPosition + coverE, Quaternion.Euler(0,90,0), this.transform);
+			break;
+			case 4:
+			if(covers[4] == null)
+			covers[4] = Instantiate(cover, transform.localPosition + coverSE, Quaternion.Euler(0,-30,0), this.transform);
+			break;
+			case 5:
+			if(covers[5] == null)
+			covers[5] = Instantiate(cover, transform.localPosition + coverSW, Quaternion.Euler(0,30,0), this.transform);
+			break;
+		}
 	}
 }
