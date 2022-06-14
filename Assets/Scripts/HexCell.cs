@@ -548,10 +548,11 @@ public class HexCell : MonoBehaviour {
 		highlight.enabled = true;
 	}
 
-	public GameObject cover;
+	public GameObject coverPrefab;
 	public void BuildCover(int direction)
 	{
-		float halfOuter = 4.5f;
+		// best 4.4
+		float halfOuter = 4.4f;
 		
 		float tan30 = 0.57735f;
 		float midPoint = halfOuter / tan30;
@@ -561,32 +562,54 @@ public class HexCell : MonoBehaviour {
 		Vector3 coverE = new Vector3(2*halfOuter,0,0);
 		Vector3 coverSE = new Vector3(halfOuter,0,-midPoint);
 		Vector3 coverSW = new Vector3(-halfOuter,0,-midPoint);
+
+		Quaternion rotateNE = Quaternion.Euler(0,30,0);
+		Quaternion rotateNW = Quaternion.Euler(0,-30,0);
+		Quaternion rotateW = Quaternion.Euler(0,90,0);
+		Quaternion rotateE = Quaternion.Euler(0,90,0);
+		Quaternion rotateSE = Quaternion.Euler(0,-30,0);
+		Quaternion rotateSW = Quaternion.Euler(0,30,0);
 		switch (direction)
 		{
 			case 0:
-			if(covers[0] == null)
-			covers[0] = Instantiate(cover, transform.localPosition + coverNE, Quaternion.Euler(0,30,0), this.transform);
+			if(covers[0] == null && NeighborHasSharedCover(HexDirection.NE))
+			covers[0] = Instantiate(coverPrefab, transform.localPosition + coverNE, rotateNE, this.transform);
 			break;
 			case 1:
-			if(covers[1] == null)
-			covers[1] = Instantiate(cover, transform.localPosition + coverNW, Quaternion.Euler(0,-30,0), this.transform);
+			// East Cover
+			if(covers[1] == null && NeighborHasSharedCover(HexDirection.E))
+			covers[1] = Instantiate(coverPrefab, transform.localPosition + coverE, rotateE, this.transform);
 			break;
 			case 2:
-			if(covers[2] == null)
-			covers[2] = Instantiate(cover, transform.localPosition + coverW, Quaternion.Euler(0,90,0), this.transform);
+			// SE Cover
+			if(covers[2] == null && NeighborHasSharedCover(HexDirection.SE))
+			covers[2] = Instantiate(coverPrefab, transform.localPosition + coverSE, rotateSE, this.transform);
 			break;
 			case 3:
-			if(covers[3] == null)
-			covers[3] = Instantiate(cover, transform.localPosition + coverE, Quaternion.Euler(0,90,0), this.transform);
+			// SW Cover
+			if(covers[3] == null && NeighborHasSharedCover(HexDirection.SW))
+			covers[3] = Instantiate(coverPrefab, transform.localPosition + coverSW, rotateSW, this.transform);
 			break;
 			case 4:
-			if(covers[4] == null)
-			covers[4] = Instantiate(cover, transform.localPosition + coverSE, Quaternion.Euler(0,-30,0), this.transform);
+			// West Cover
+			if(covers[4] == null && NeighborHasSharedCover(HexDirection.W))
+			covers[4] = Instantiate(coverPrefab, transform.localPosition + coverW, rotateW, this.transform);
 			break;
 			case 5:
-			if(covers[5] == null)
-			covers[5] = Instantiate(cover, transform.localPosition + coverSW, Quaternion.Euler(0,30,0), this.transform);
+			// NW Cover
+			if(covers[5] == null && NeighborHasSharedCover(HexDirection.NW))
+			covers[5] = Instantiate(coverPrefab, transform.localPosition + coverNW, rotateNW, this.transform);
 			break;
 		}
+	}
+
+	bool NeighborHasSharedCover(HexDirection neighbor)
+	{
+		if(this.GetNeighbor(neighbor))
+		{
+			return this.GetNeighbor(neighbor).covers[(int)neighbor.Opposite()] == null;
+		}
+		// no neighbor
+		return true;
 	}
 }

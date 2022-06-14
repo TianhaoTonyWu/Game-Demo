@@ -5,6 +5,8 @@ public class HexGameUI : MonoBehaviour {
 	public HexGrid grid;
 	HexCell currentCell;
 	HexUnit selectedUnit;
+
+	public bool isTravelling;
 	public CoverSelectionMenu coverMenu;
 	public void SetEditMode (bool toggle) {
 		enabled = !toggle;
@@ -23,16 +25,19 @@ public class HexGameUI : MonoBehaviour {
 				}
 				else
 				{
+					isTravelling = false;
 					DoSelection();
 				}
 
 			}
 			else if (selectedUnit) {
+				isTravelling = true;
 				if (Input.GetMouseButtonDown(1)) {
-					DoMove();
+					DoMove();	
+					isTravelling = false;
 				}
 				else {
-					DoPathfinding();
+					if(isTravelling) DoPathfinding();
 				}
 			}
 		}
@@ -62,6 +67,7 @@ public class HexGameUI : MonoBehaviour {
 //			selectedUnit.Location = currentCell;
 			selectedUnit.Travel(grid.GetPath());
 			grid.ClearPath();
+			selectedUnit = null;
 		}
 	}
 
