@@ -8018,6 +8018,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameUI: {fileID: 333297601}
   parentCanvas: {fileID: 1367172102}
+  coverToggle: {fileID: 348465835}
 --- !u!1 &984733432
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,10 +1,12 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class CoverSelectionMenu : MonoBehaviour
 {
     public HexGameUI gameUI;
     public Canvas parentCanvas;
+    public Toggle coverToggle;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,7 +16,7 @@ public class CoverSelectionMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {  
-
+       
     }
     public void MoveToCursor()
     {

@@ -12,6 +12,12 @@ public class HexGameUI : MonoBehaviour {
 		enabled = !toggle;
 		grid.ShowUI(!toggle);
 		grid.ClearPath();
+		if (toggle) {
+			Shader.EnableKeyword("HEX_MAP_EDIT_MODE");
+		}
+		else {
+			Shader.DisableKeyword("HEX_MAP_EDIT_MODE");
+		}
 	}
 
 	void Update () {
@@ -25,16 +31,17 @@ public class HexGameUI : MonoBehaviour {
 				}
 				else
 				{
-					isTravelling = false;
+					updateTravelState(false);
 					DoSelection();
 				}
 
 			}
 			else if (selectedUnit) {
-				isTravelling = true;
+				updateTravelState(true);
 				if (Input.GetMouseButtonDown(1)) {
 					DoMove();	
-					isTravelling = false;
+					updateTravelState(false);
+					
 				}
 				else {
 					if(isTravelling) DoPathfinding();
@@ -94,5 +101,11 @@ public class HexGameUI : MonoBehaviour {
 	public void SetCurrentCellCover(int dir)
 	{
 		if(currentCell) currentCell.BuildCover(dir);
+	}
+
+	public void updateTravelState(bool toTravel)
+	{
+		isTravelling = toTravel;
+		coverMenu.coverToggle.interactable = !toTravel;
 	}
 }

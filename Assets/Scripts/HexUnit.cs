@@ -7,7 +7,7 @@ public class HexUnit : MonoBehaviour {
 
 	const float rotationSpeed = 180f;
 	const float travelSpeed = 4f;
-	const int visionRange = 3;
+	const int visionRange = 1;
 
 	public static HexUnit unitPrefab;
 
