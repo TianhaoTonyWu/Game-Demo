@@ -277,7 +277,7 @@ public class HexCell : MonoBehaviour {
 	[SerializeField]
 	bool[] roads;
 
-	public List<GameObject> covers;
+	
 
 	public void IncreaseVisibility () {
 		visibility += 1;
@@ -554,7 +554,10 @@ public class HexCell : MonoBehaviour {
 		highlight.enabled = true;
 	}
 
+
+/// Cover //////////////////////////////////////////
 	public GameObject coverPrefab;
+	public List<GameObject> covers;
 	public void BuildCover(int direction)
 	{
 		// best 4.4
@@ -617,5 +620,13 @@ public class HexCell : MonoBehaviour {
 		}
 		// no neighbor
 		return true;
+	}
+	//////////////// Bridge /////////////////////////
+	public GameObject bridgePrefab;
+	public GameObject bridge;
+	
+	public void BuildBridge(int dir)
+	{
+		if(bridge == null) bridge = Instantiate(bridgePrefab, transform.localPosition, Quaternion.Euler(0,-60*dir,0),this.transform );
 	}
 }

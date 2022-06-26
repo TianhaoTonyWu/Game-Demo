@@ -2,11 +2,11 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class CoverSelectionMenu : MonoBehaviour
+public class SkillMenu : MonoBehaviour
 {
     public HexGameUI gameUI;
     public Canvas parentCanvas;
-    public Toggle coverToggle;
+    public Toggle skillToggle;
     // Start is called before the first frame update
     void Start()
     {

@@ -7,7 +7,9 @@ public class HexGameUI : MonoBehaviour {
 	HexUnit selectedUnit;
 
 	public bool isTravelling;
-	public CoverSelectionMenu coverMenu;
+	public SkillMenu coverMenu;
+	public SkillMenu bridgeMenu;
+	public BridgeBuilder bridgeBuilder;
 	public void SetEditMode (bool toggle) {
 		enabled = !toggle;
 		grid.ShowUI(!toggle);
@@ -27,7 +29,13 @@ public class HexGameUI : MonoBehaviour {
 				if(coverMenu.isActiveAndEnabled)
 				{
 					UpdateCurrentCell();
+					// Lets player put cover on cells 
 					coverMenu.MoveToCursor();
+				}
+				else if(bridgeMenu.isActiveAndEnabled)
+				{
+					UpdateCurrentCell();
+					bridgeMenu.MoveToCursor();
 				}
 				else
 				{
@@ -61,7 +69,7 @@ public class HexGameUI : MonoBehaviour {
 	void DoPathfinding () {
 		if (UpdateCurrentCell()) {
 			if (currentCell && selectedUnit.IsValidDestination(currentCell)) {
-				grid.FindPath(selectedUnit.Location, currentCell, 24);
+				grid.FindPath(selectedUnit.Location, currentCell, selectedUnit);
 			}
 			else {
 				grid.ClearPath();
@@ -98,14 +106,20 @@ public class HexGameUI : MonoBehaviour {
 		if(currentCell) currentCell.DisableHighlight();
 	}
 
+	// Buttons
 	public void SetCurrentCellCover(int dir)
 	{
 		if(currentCell) currentCell.BuildCover(dir);
 	}
 
+	public void BuildBridge()
+	{
+		if(currentCell) currentCell.BuildBridge(bridgeBuilder.BridgeDirection);
+	}
+	//
 	public void updateTravelState(bool toTravel)
 	{
 		isTravelling = toTravel;
-		coverMenu.coverToggle.interactable = !toTravel;
+		coverMenu.skillToggle.interactable = !toTravel;
 	}
 }
